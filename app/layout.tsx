@@ -18,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Royal Editorial Canvas | Design System",
+  title: "Nisham PA — Psychologist, Author & Consultant",
   description:
-    "Production-grade design system theme bridging authoritative royal navy tones with an illuminated warm ivory editorial sanctuary.",
+    "Consulting psychologist, author, and executive advisor for leaders, businesses, and families. Author of Panam, Adhikaram, Arogyam and founder of Sensebridge.",
 };
 
 export default function RootLayout({

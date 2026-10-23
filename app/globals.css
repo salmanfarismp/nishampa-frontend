@@ -368,3 +368,61 @@ body {
 @utility shadow-modal {
   box-shadow: 0 20px 40px -8px rgba(2, 58, 114, 0.12), 0 1px 3px rgba(14, 26, 41, 0.08);
 }
+
+/* Font Family Direct Utilities */
+@utility font-display {
+  font-family: var(--font-serif);
+}
+
+@utility font-headline {
+  font-family: var(--font-serif);
+}
+
+@utility font-headline-lg {
+  font-family: var(--font-serif);
+}
+
+@utility font-headline-md {
+  font-family: var(--font-serif);
+}
+
+@utility font-headline-sm {
+  font-family: var(--font-serif);
+}
+
+@utility font-title-lg {
+  font-family: var(--font-sans);
+}
+
+@utility font-title-md {
+  font-family: var(--font-sans);
+}
+
+@utility font-body-lg {
+  font-family: var(--font-sans);
+}
+
+@utility font-body-md {
+  font-family: var(--font-sans);
+}
+
+@utility font-body-sm {
+  font-family: var(--font-sans);
+}
+
+@utility font-label-lg {
+  font-family: var(--font-sans);
+}
+
+@utility font-label-md {
+  font-family: var(--font-sans);
+}
+
+@utility font-label-sm {
+  font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
