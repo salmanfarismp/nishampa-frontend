@@ -1,26 +1,370 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Royal Editorial Canvas - Design Tokens & Theme Architecture
+   Strictly based on design/design.md
+   ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surface Tokens */
+  --surface: #fbf9f5;
+  --surface-dim: #dbdad6;
+  --surface-bright: #fbf9f5;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f5f3ef;
+  --surface-container: #efeeea;
+  --surface-container-high: #eae8e4;
+  --surface-container-highest: #e4e2de;
+  --surface-variant: #e4e2de;
+  --on-surface: #1b1c1a;
+  --on-surface-variant: #434750;
+  --inverse-surface: #30312e;
+  --inverse-on-surface: #f2f0ed;
+  --surface-tint: #365f99;
+
+  /* Boundary & Outline Tokens */
+  --outline: #737781;
+  --outline-variant: #c3c6d1;
+
+  /* Primary Palette */
+  --primary: #00244c;
+  --on-primary: #ffffff;
+  --primary-container: #023a72;
+  --on-primary-container: #7fa5e4;
+  --inverse-primary: #a8c8ff;
+
+  /* Secondary Palette */
+  --secondary: #775a00;
+  --on-secondary: #ffffff;
+  --secondary-container: #ffca40;
+  --on-secondary-container: #715600;
+
+  /* Tertiary Palette */
+  --tertiary: #322200;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #4e3600;
+  --on-tertiary-container: #d09b27;
+
+  /* Error Palette */
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  /* Primary Fixed Variants */
+  --primary-fixed: #d5e3ff;
+  --primary-fixed-dim: #a8c8ff;
+  --on-primary-fixed: #001b3c;
+  --on-primary-fixed-variant: #19477f;
+
+  /* Secondary Fixed Variants */
+  --secondary-fixed: #ffdf99;
+  --secondary-fixed-dim: #f3bf34;
+  --on-secondary-fixed: #251a00;
+  --on-secondary-fixed-variant: #5a4300;
+
+  /* Tertiary Fixed Variants */
+  --tertiary-fixed: #ffdea6;
+  --tertiary-fixed-dim: #f7bd48;
+  --on-tertiary-fixed: #271900;
+  --on-tertiary-fixed-variant: #5d4200;
+
+  /* Background Core */
+  --background: #fbf9f5;
+  --on-background: #1b1c1a;
+
+  /* Curated Brand & Atmosphere Accents */
+  --brand-navy: #023a72;
+  --brand-navy-dark: #00244c;
+  --brand-navy-midnight: #001b3c;
+  --brand-gold: #e2b023;
+  --brand-gold-glow: rgba(226, 176, 35, 0.2);
+  --brand-ochre: #b8860b;
+  --brand-ivory: #fbf9f5;
+  --brand-slate: #0e1a29;
+  --brand-linen: #efece4;
+
+  /* Elevation & Shadows */
+  --shadow-luminous-glow: inset 0 1px 0 rgba(226, 176, 35, 0.2), 0 12px 32px rgba(2, 26, 52, 0.4);
+  --shadow-editorial: 0 4px 20px -2px rgba(14, 26, 41, 0.04), 0 2px 6px -1px rgba(14, 26, 41, 0.02);
+  --shadow-modal: 0 20px 40px -8px rgba(2, 58, 114, 0.12), 0 1px 3px rgba(14, 26, 41, 0.08);
 }
 
-@theme inline {
+/* ==========================================================================
+   Tailwind CSS v4 @theme directive
+   Exposes all design system tokens to Tailwind utility classes
+   ========================================================================== */
+
+@theme {
+  /* Color Tokens */
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  --color-surface-tint: var(--surface-tint);
+
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-inverse-primary: var(--inverse-primary);
+
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
+
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-on-secondary-fixed-variant: var(--on-secondary-fixed-variant);
+
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
+
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-on-background: var(--on-background);
+
+  /* Brand Accents */
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-dark: var(--brand-navy-dark);
+  --color-brand-navy-midnight: var(--brand-navy-midnight);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-ochre: var(--brand-ochre);
+  --color-brand-ivory: var(--brand-ivory);
+  --color-brand-slate: var(--brand-slate);
+  --color-brand-linen: var(--brand-linen);
+
+  /* Font Families */
+  --font-serif: var(--font-newsreader), Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-newsreader: var(--font-newsreader), Georgia, serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Spacing & Gutters */
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-sm: 1rem;
+  --spacing-gutter-lg: 2rem;
+  --spacing-margin: 1.5rem;
+  --spacing-margin-sm: 1rem;
+  --spacing-margin-lg: 4rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+
+  /* Elevation Shadows & Glows */
+  --shadow-luminous-glow: inset 0 1px 0 rgba(226, 176, 35, 0.2), 0 12px 32px rgba(2, 26, 52, 0.4);
+  --shadow-editorial: 0 4px 20px -2px rgba(14, 26, 41, 0.04), 0 2px 6px -1px rgba(14, 26, 41, 0.02);
+  --shadow-modal: 0 20px 40px -8px rgba(2, 58, 114, 0.12), 0 1px 3px rgba(14, 26, 41, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ==========================================================================
+   Global Base Layer
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+/* Refined selection highlight in line with royal editorial tone */
+::selection {
+  background-color: var(--primary-container);
+  color: var(--surface);
+}
+
+/* ==========================================================================
+   Typography Hierarchy Utilities
+   Derived strictly from design/design.md
+   ========================================================================== */
+
+@utility text-display {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  line-height: 4rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-mobile {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+@utility text-headline-lg {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 3rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+@utility text-headline-lg-mobile {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@utility text-headline-md {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@utility text-headline-sm {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-title-lg {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility text-title-md {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+@utility text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-md {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+@utility text-label-lg {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+@utility text-label-md {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@utility text-label-sm {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Component Preset Utilities from design.md
+   ========================================================================== */
+
+/* Luminous Glow for dark navy panels & floating cards */
+@utility glow-luminous {
+  box-shadow: inset 0 1px 0 rgba(226, 176, 35, 0.2), 0 12px 32px rgba(2, 26, 52, 0.4);
+}
+
+/* Diffused ambient shadow for ivory canvas editorial cards */
+@utility shadow-editorial {
+  box-shadow: 0 4px 20px -2px rgba(14, 26, 41, 0.04), 0 2px 6px -1px rgba(14, 26, 41, 0.02);
+}
+
+/* Floating Modals and flyouts elevation */
+@utility shadow-modal {
+  box-shadow: 0 20px 40px -8px rgba(2, 58, 114, 0.12), 0 1px 3px rgba(14, 26, 41, 0.08);
 }
