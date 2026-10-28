@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "@/components/home/Navbar";
 import HeroSection from "@/components/home/HeroSection";
 import AffiliationsBar from "@/components/home/AffiliationsBar";
+import AboutSection from "@/components/home/AboutSection";
 import BookFeature from "@/components/home/BookFeature";
 import PracticeBento from "@/components/home/PracticeBento";
 import FieldworkGallery from "@/components/home/FieldworkGallery";
@@ -24,6 +25,9 @@ export default function HomePage() {
 
           {/* Institutional Affiliations & Client Ticker Strip */}
           <AffiliationsBar data={homeData.affiliations} />
+
+          {/* About Section: Background, Leadership & Credentials */}
+          <AboutSection data={homeData.about} />
 
           {/* The Monograph: Panam, Adhikaram, Arogyam */}
           <BookFeature data={homeData.book} />

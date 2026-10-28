@@ -48,6 +48,34 @@ export interface AffiliationsData {
   partners: string[];
 }
 
+export type AboutIconName =
+  | "school"
+  | "advisory"
+  | "initiatives"
+  | "credentials";
+
+export interface AboutCardItem {
+  id: string;
+  title: string;
+  role: string;
+  description: string;
+  icon: AboutIconName;
+}
+
+export interface AboutSectionData {
+  eyebrow: string;
+  headline: string;
+  lead: string;
+  bio: string;
+  portrait: {
+    src: string;
+    alt: string;
+  };
+  cards: AboutCardItem[];
+  quote: string;
+  quoteAuthor: string;
+}
+
 export interface BookData {
   eyebrow: string;
   titleEn: string;
@@ -162,6 +190,7 @@ export interface HomePageData {
   nav: NavConfig;
   hero: HeroData;
   affiliations: AffiliationsData;
+  about: AboutSectionData;
   book: BookData;
   practice: PracticeSectionData;
   fieldwork: FieldworkSectionData;
@@ -176,13 +205,13 @@ export const homeData: HomePageData = {
     brandRole: "Psychologist & Executive Advisor",
     links: [
       { label: "About", href: "#about", pathId: "about" },
-      { label: "The Book", href: "#the-book", pathId: "the-book" },
+      { label: "The Book", href: "/the-book", pathId: "the-book" },
       { label: "Advisory", href: "#advisory", pathId: "advisory" },
       { label: "Fieldwork", href: "#fieldwork", pathId: "fieldwork" },
     ],
     cta: {
       label: "Schedule Consultation",
-      href: "#consultation-inquiry",
+      href: "https://wa.me/916238081953?text=Hello%20Nisham%20PA%20Office%2C%20I%20would%20like%20to%20schedule%20a%20consultation.",
     },
   },
 
@@ -232,6 +261,55 @@ export const homeData: HomePageData = {
       "myG Digital",
       "Elixir Healthcare",
     ],
+  },
+
+  about: {
+    eyebrow: "Background & Leadership",
+    headline:
+      "Blending human psychology with strategic leadership to unlock conscious growth.",
+    lead: "Psychology shouldn't be confined to clinic rooms or heavy academic textbooks. True emotional clarity and organizational excellence happen when we understand why we act, lead, and relate the way we do in daily life.",
+    bio: "Holding a Postgraduate Degree in Psychology, Nisham PA is the Founder and Managing Director of Sensebridge Academy, a seasoned corporate consultant, executive mentor, and author. Over the past decade, he has guided thousands across Kerala and internationally—empowering entrepreneurs, family enterprises, executives, and individuals to navigate high-stakes decisions and build sustainable emotional resilience.",
+    portrait: {
+      src: "/assets/nisham-sir-photo.webp",
+      alt: "Portrait of Nisham PA, Clinical Psychologist & Author",
+    },
+    cards: [
+      {
+        id: "sensebridge-academy",
+        title: "Sensebridge Academy",
+        role: "Founder & Managing Director",
+        description:
+          "Creator of the 'Human Behavior & Emotional Wellness' flagship program, mentoring emerging psychologists and counseling practitioners.",
+        icon: "school",
+      },
+      {
+        id: "executive-advisory",
+        title: "Executive Advisory",
+        role: "Business & Family Consultant",
+        description:
+          "Trusted behavioral advisor to leading regional enterprises, handling intergenerational succession, executive burnout, and organizational dynamics.",
+        icon: "advisory",
+      },
+      {
+        id: "wehub-initiatives",
+        title: "WEHUB Initiatives",
+        role: "Managing Director, World Eighth Hub",
+        description:
+          "Advancing creative media, cultural dialogue, and social impact platforms, championing transformative youth development across institutions.",
+        icon: "initiatives",
+      },
+      {
+        id: "credentials",
+        title: "Credentials",
+        role: "Academic & Clinical Background",
+        description:
+          "Postgraduate in Psychology • Clinical Hypnotherapist • Montessori Educator (Canada) • Hospitality & Operations Management background.",
+        icon: "credentials",
+      },
+    ],
+    quote:
+      "“To ignite human potential by aligning mindset, culture, and measurable momentum.”",
+    quoteAuthor: "— Nisham PA",
   },
 
   book: {
@@ -404,12 +482,12 @@ export const homeData: HomePageData = {
     brandRole: "Clinical Psychologist, Author & Executive Advisory",
     links: [
       { label: "About", href: "#about", pathId: "about" },
-      { label: "The Book", href: "#the-book", pathId: "the-book" },
+      { label: "The Book", href: "/the-book", pathId: "the-book" },
       { label: "Advisory", href: "#advisory", pathId: "advisory" },
       { label: "Fieldwork", href: "#fieldwork", pathId: "fieldwork" },
       {
         label: "Schedule Consultation",
-        href: "#consultation-inquiry",
+        href: "https://wa.me/916238081953?text=Hello%20Nisham%20PA%20Office%2C%20I%20would%20like%20to%20schedule%20a%20consultation.",
         pathId: "schedule-consultation",
       },
     ],
