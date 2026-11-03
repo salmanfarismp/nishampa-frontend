@@ -8,12 +8,14 @@ interface ReaderReviewsProps {
 
 // ── Single review card ─────────────────────────────────────────────────────
 function ReviewCard({ review }: { review: ReviewItem }) {
+  const safeStarCount = Math.max(1, Math.min(5, Math.floor(review.stars || 5)));
+
   return (
     <article className="bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md transition-all">
       <div className="flex flex-col gap-space-sm">
         {/* Star Rating */}
-        <div className="flex items-center gap-0.5" aria-label={`${review.stars} out of 5 stars`}>
-          {Array.from({ length: review.stars }).map((_, i) => (
+        <div className="flex items-center gap-0.5" aria-label={`${safeStarCount} out of 5 stars`}>
+          {Array.from({ length: safeStarCount }).map((_, i) => (
             <Star
               key={i}
               className="w-[18px] h-[18px] text-secondary fill-current"

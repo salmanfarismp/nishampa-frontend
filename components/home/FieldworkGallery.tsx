@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { FieldworkSectionData } from "@/lib/data/home";
+import { resolveGalleryImageUrl } from "@/lib/types/gallery";
 
 interface FieldworkGalleryProps {
   data: FieldworkSectionData;
@@ -37,36 +38,42 @@ export default function FieldworkGallery({ data }: FieldworkGalleryProps) {
 
         {/* 3-Column Photography Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
-          {data.items.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-surface-variant/40"
-            >
-              {/* Image Frame with Smooth Scale Zoom */}
-              <div className="relative w-full aspect-square overflow-hidden bg-surface-container">
-                <Image
-                  src={item.image.src}
-                  alt={item.image.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 380px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+          {data.items.map((item) => {
+            const imageSrc = resolveGalleryImageUrl(item.image?.src);
+            const imageAlt =
+              item.image?.alt?.trim() || item.title?.trim() || "Fieldwork and workshop session";
 
-              {/* Card Metadata */}
-              <div className="p-space-md flex flex-col gap-space-xs">
-                <span className="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">
-                  {item.tag}
-                </span>
-                <h3 className="font-title-md text-title-md text-primary">
-                  {item.title}
-                </h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                  {item.description}
-                </p>
+            return (
+              <div
+                key={item.id}
+                className="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-surface-variant/40"
+              >
+                {/* Image Frame with Smooth Scale Zoom */}
+                <div className="relative w-full aspect-square overflow-hidden bg-surface-container">
+                  <Image
+                    src={imageSrc}
+                    alt={imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 380px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Card Metadata */}
+                <div className="p-space-md flex flex-col gap-space-xs">
+                  <span className="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">
+                    {item.tag}
+                  </span>
+                  <h3 className="font-title-md text-title-md text-primary">
+                    {item.title}
+                  </h3>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Navbar from "@/components/home/Navbar";
 import HeroSection from "@/components/home/HeroSection";
 import AffiliationsBar from "@/components/home/AffiliationsBar";
@@ -10,6 +10,28 @@ import Testimonials from "@/components/home/Testimonials";
 import ConsultationBanner from "@/components/home/ConsultationBanner";
 import Footer from "@/components/home/Footer";
 import { homeData } from "@/lib/data/home";
+import { getGalleryItems } from "@/lib/data/gallery";
+import { getServiceReviews } from "@/lib/data/service-reviews";
+
+async function LiveFieldworkGallery() {
+  const galleryItems = await getGalleryItems();
+  const fieldworkData = {
+    ...homeData.fieldwork,
+    items: galleryItems,
+  };
+
+  return <FieldworkGallery data={fieldworkData} />;
+}
+
+async function LiveTestimonials() {
+  const reviews = await getServiceReviews();
+  const testimonialsData = {
+    ...homeData.testimonials,
+    items: reviews,
+  };
+
+  return <Testimonials data={testimonialsData} />;
+}
 
 export default function HomePage() {
   return (
@@ -36,10 +58,14 @@ export default function HomePage() {
           <PracticeBento data={homeData.practice} />
 
           {/* Documentary Fieldwork & Speaking Gallery */}
-          <FieldworkGallery data={homeData.fieldwork} />
+          <Suspense fallback={<FieldworkGallery data={homeData.fieldwork} />}>
+            <LiveFieldworkGallery />
+          </Suspense>
 
           {/* Editorial Client & Participant Testimonials */}
-          <Testimonials data={homeData.testimonials} />
+          <Suspense fallback={<Testimonials data={homeData.testimonials} />}>
+            <LiveTestimonials />
+          </Suspense>
 
           {/* Direct Consultation & Contact Chambers Closing Banner */}
           <ConsultationBanner data={homeData.consultation} />

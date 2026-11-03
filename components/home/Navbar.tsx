@@ -16,7 +16,7 @@ export default function Navbar({ data }: NavbarProps) {
     <header className="fixed top-0 left-0 w-full z-50 bg-primary/90 backdrop-blur-md border-b border-primary-fixed/15 py-4 lg:py-5 transition-all">
       <div className="max-w-[1280px] mx-auto px-gutter-sm lg:px-gutter-lg flex items-center justify-between">
         {/* Brand Lockup */}
-        <Link href="#" className="flex items-center gap-3 text-left group">
+        <Link href="/" aria-label="Nisham PA Home" className="flex items-center gap-3 text-left group">
           <div className="flex flex-col">
             <span className="font-headline-sm text-title-lg leading-tight text-on-primary tracking-tight group-hover:text-secondary-container transition-colors">
               {data.brandName}

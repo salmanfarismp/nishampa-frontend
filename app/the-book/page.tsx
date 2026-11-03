@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
@@ -9,6 +10,17 @@ import ReaderReviews from "@/components/book/ReaderReviews";
 import OrderCTA from "@/components/book/OrderCTA";
 import { bookData } from "@/lib/data/book";
 import { homeData } from "@/lib/data/home";
+import { getBookReviews } from "@/lib/data/book-reviews";
+
+async function LiveReaderReviews() {
+  const reviews = await getBookReviews();
+  const reviewsData = {
+    ...bookData.reviews,
+    items: reviews,
+  };
+
+  return <ReaderReviews data={reviewsData} />;
+}
 
 export const metadata: Metadata = {
   title:
@@ -55,7 +67,9 @@ export default function TheBookPage() {
         <AuthorPerspective data={bookData.author} />
 
         {/* 6 — Reader Testimonials Grid */}
-        <ReaderReviews data={bookData.reviews} />
+        <Suspense fallback={<ReaderReviews data={bookData.reviews} />}>
+          <LiveReaderReviews />
+        </Suspense>
 
         {/* 7 — Order Conversion Module with WhatsApp CTA */}
         <OrderCTA data={bookData.order} />
