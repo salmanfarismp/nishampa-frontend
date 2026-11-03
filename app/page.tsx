@@ -12,6 +12,15 @@ import Footer from "@/components/home/Footer";
 import { homeData } from "@/lib/data/home";
 import { getGalleryItems } from "@/lib/data/gallery";
 import { getServiceReviews } from "@/lib/data/service-reviews";
+import { getClients } from "@/lib/data/clients";
+
+async function LiveAffiliationsBar() {
+  const clients = await getClients();
+  if (!clients || clients.length === 0) {
+    return null;
+  }
+  return <AffiliationsBar data={homeData.affiliations} items={clients} />;
+}
 
 async function LiveFieldworkGallery() {
   const galleryItems = await getGalleryItems();
@@ -49,8 +58,10 @@ export default function HomePage() {
           {/* Hero Section: Concentrated Royal Navy Night Canvas */}
           <HeroSection data={homeData.hero} />
 
-          {/* Institutional Affiliations & Client Ticker Strip */}
-          <AffiliationsBar data={homeData.affiliations} />
+          {/* Institutional Affiliations & Client Strip */}
+          <Suspense fallback={null}>
+            <LiveAffiliationsBar />
+          </Suspense>
 
           {/* About Section: Background, Leadership & Credentials */}
           <AboutSection data={homeData.about} />
