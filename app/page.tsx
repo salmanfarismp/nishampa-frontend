@@ -25,6 +25,10 @@ async function LiveFieldworkGallery() {
 
 async function LiveTestimonials() {
   const reviews = await getServiceReviews();
+  if (!reviews || reviews.length === 0) {
+    return null;
+  }
+
   const testimonialsData = {
     ...homeData.testimonials,
     items: reviews,
@@ -63,7 +67,7 @@ export default function HomePage() {
           </Suspense>
 
           {/* Editorial Client & Participant Testimonials */}
-          <Suspense fallback={<Testimonials data={homeData.testimonials} />}>
+          <Suspense fallback={null}>
             <LiveTestimonials />
           </Suspense>
 

@@ -7,6 +7,10 @@ interface TestimonialsProps {
 }
 
 export default function Testimonials({ data }: TestimonialsProps) {
+  if (!data?.items || data.items.length === 0) {
+    return null;
+  }
+
   return (
     <section className="w-full bg-surface-container-low py-space-xl lg:py-margin-lg">
       <div className="max-w-[1280px] mx-auto px-gutter-sm lg:px-gutter-lg">

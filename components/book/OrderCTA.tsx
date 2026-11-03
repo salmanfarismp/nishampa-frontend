@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import {
   PenLine,
   Truck,
@@ -8,6 +10,7 @@ import {
   ShieldCheck,
   BookOpen,
   Store,
+  CreditCard,
 } from "lucide-react";
 import type {
   OrderCTAData,
@@ -16,6 +19,7 @@ import type {
   OrderPerkIconName,
   StockistIconName,
 } from "@/lib/data/book";
+import CheckoutModal from "./CheckoutModal";
 
 interface OrderCTAProps {
   data: OrderCTAData;
@@ -72,6 +76,19 @@ export default function OrderCTA({ data }: OrderCTAProps) {
     stockistsLabel,
     stockists,
   } = data;
+
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  // Auto-open modal if returning with ?checkout=open from Google OAuth
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") === "open") {
+      const timer = setTimeout(() => {
+        setIsCheckoutOpen(true);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <section
@@ -139,14 +156,26 @@ export default function OrderCTA({ data }: OrderCTAProps) {
                 {freeShippingNote}
               </p>
 
-              {/* WhatsApp CTA */}
+              {/* Primary: Online Checkout with Razorpay */}
+              <button
+                type="button"
+                onClick={() => setIsCheckoutOpen(true)}
+                className="w-full inline-flex items-center justify-center gap-space-xs bg-primary text-on-primary text-title-md py-4 px-space-md rounded-lg hover:bg-primary-container shadow-md transition-all font-semibold active:scale-[0.99] cursor-pointer mb-2.5"
+              >
+                <CreditCard className="w-[20px] h-[20px]" aria-hidden="true" />
+                <span className="[font-family:var(--font-noto-sans-ml,var(--font-sans))]">
+                  ഓർഡർ ചെയ്യുക (Pay Online)
+                </span>
+              </button>
+
+              {/* Secondary: WhatsApp CTA */}
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-space-xs bg-secondary-container text-on-secondary-fixed text-title-md py-4 px-space-md rounded-lg hover:bg-secondary-fixed-dim hover:brightness-105 shadow-md transition-all font-semibold active:scale-[0.99]"
+                className="w-full inline-flex items-center justify-center gap-space-xs bg-secondary-container/20 text-secondary border border-secondary/30 text-body-md py-3 px-space-md rounded-lg hover:bg-secondary-container/30 transition-all font-medium active:scale-[0.99]"
               >
-                <MessageSquare className="w-[22px] h-[22px]" aria-hidden="true" />
+                <MessageSquare className="w-[18px] h-[18px]" aria-hidden="true" />
                 <span className="[font-family:var(--font-noto-sans-ml,var(--font-sans))]">
                   {whatsappLabel}
                 </span>
@@ -175,7 +204,12 @@ export default function OrderCTA({ data }: OrderCTAProps) {
           </div>
         </div>
       </div>
+
+      {/* Razorpay + Address Collection Modal */}
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+      />
     </section>
   );
 }
-

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { cacheLife, cacheTag } from "next/cache";
-import { homeData, type TestimonialItem } from "@/lib/data/home";
+import type { TestimonialItem } from "@/lib/data/home";
 import {
   mapServiceReviewRowToTestimonialItem,
   type ServiceReviewRow,
@@ -24,9 +24,9 @@ export async function getServiceReviews(
 
   if (!supabaseUrl || !supabaseKey) {
     console.warn(
-      "Supabase credentials missing. Falling back to static testimonials."
+      "Supabase credentials missing. Returning empty service reviews."
     );
-    return homeData.testimonials.items;
+    return [];
   }
 
   try {
@@ -48,11 +48,11 @@ export async function getServiceReviews(
         "Error fetching ServiceReview from Supabase:",
         error.message
       );
-      return homeData.testimonials.items;
+      return [];
     }
 
     if (!data || data.length === 0) {
-      return homeData.testimonials.items;
+      return [];
     }
 
     // Filter out rows without a valid comment
@@ -61,7 +61,7 @@ export async function getServiceReviews(
     );
 
     if (validRows.length === 0) {
-      return homeData.testimonials.items;
+      return [];
     }
 
     return validRows.map((row, index) =>
@@ -69,7 +69,6 @@ export async function getServiceReviews(
     );
   } catch (err) {
     console.error("Unexpected error in getServiceReviews:", err);
-    return homeData.testimonials.items;
+    return [];
   }
 }
-
