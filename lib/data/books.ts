@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { cacheLife, cacheTag } from "next/cache";
 import type { BookRow } from "@/lib/types/book";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -19,6 +20,10 @@ export const DEFAULT_BOOK: BookRow = {
 };
 
 export async function getBookBySlug(slug: string): Promise<BookRow | null> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("books");
+
   const normalizedSlug = slug.trim().toLowerCase();
 
   if (!supabaseUrl || !supabaseKey) {
@@ -80,6 +85,10 @@ export async function getBookBySlug(slug: string): Promise<BookRow | null> {
 }
 
 export async function getAllBooks(): Promise<BookRow[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("books");
+
   if (!supabaseUrl || !supabaseKey) {
     return [DEFAULT_BOOK];
   }
