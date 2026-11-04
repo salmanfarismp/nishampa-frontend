@@ -4,6 +4,7 @@ import type { TestimonialItem } from "@/lib/data/home";
 import {
   mapServiceReviewRowToTestimonialItem,
   type ServiceReviewRow,
+  type CreateServiceReviewInput,
 } from "@/lib/types/service-review";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -72,3 +73,44 @@ export async function getServiceReviews(
     return [];
   }
 }
+
+export async function createServiceReview(
+  input: CreateServiceReviewInput
+): Promise<{ success: boolean; id?: number; error?: string }> {
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Supabase credentials missing. Cannot insert service review.");
+    return { success: false, error: "Database configuration error" };
+  }
+
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from("ServiceReview")
+      .insert({
+        name: input.name.trim(),
+        comment: input.comment.trim(),
+        occupation: input.occupation?.trim() || null,
+        place: input.place?.trim() || null,
+        is_active: false, // Always saved as draft in DB
+      })
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error(
+        "Error inserting ServiceReview into Supabase:",
+        error.message
+      );
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, id: data?.id };
+  } catch (err) {
+    console.error("Unexpected error in createServiceReview:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Internal server error",
+    };
+  }
+}
+

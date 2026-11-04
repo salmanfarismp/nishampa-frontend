@@ -10,6 +10,13 @@ export interface ServiceReviewRow {
   is_active?: boolean | null;
 }
 
+export interface CreateServiceReviewInput {
+  name: string;
+  comment: string;
+  occupation?: string | null;
+  place?: string | null;
+}
+
 export function formatServiceReviewRole(
   occupation: string | null | undefined,
   place: string | null | undefined

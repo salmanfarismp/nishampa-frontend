@@ -4,6 +4,7 @@ import { bookData, type ReviewItem } from "@/lib/data/book";
 import {
   mapBookReviewRowToReviewItem,
   type BookReviewRow,
+  type CreateBookReviewInput,
 } from "@/lib/types/book-review";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -35,6 +36,7 @@ export async function getBookReviews(
     let query = supabase
       .from("BookReview")
       .select("*")
+      .or("is_active.eq.true,is_active.is.null")
       .order("created_at", { ascending: false });
 
     if (options?.bookId !== undefined) {
@@ -62,4 +64,47 @@ export async function getBookReviews(
     return bookData.reviews.items;
   }
 }
+
+export async function createBookReview(
+  input: CreateBookReviewInput
+): Promise<{ success: boolean; id?: number; error?: string }> {
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Supabase credentials missing. Cannot insert book review.");
+    return { success: false, error: "Database configuration error" };
+  }
+
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from("BookReview")
+      .insert({
+        stars: Math.max(1, Math.min(5, Math.floor(input.stars))),
+        comment: input.comment.trim(),
+        name: input.name.trim(),
+        occupation: input.occupation?.trim() || null,
+        place: input.place?.trim() || null,
+        book_id: input.book_id,
+        is_active: false, // Always saved as draft in DB
+      })
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error(
+        "Error inserting BookReview into Supabase:",
+        error.message
+      );
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, id: data?.id };
+  } catch (err) {
+    console.error("Unexpected error in createBookReview:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Internal server error",
+    };
+  }
+}
+
 

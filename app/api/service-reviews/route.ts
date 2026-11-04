@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServiceReviews } from "@/lib/data/service-reviews";
+import {
+  getServiceReviews,
+  createServiceReview,
+} from "@/lib/data/service-reviews";
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,4 +31,57 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { name, comment, occupation, place } = body || {};
+
+    if (!name || typeof name !== "string" || !name.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Name is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!comment || typeof comment !== "string" || !comment.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Feedback comment is required" },
+        { status: 400 }
+      );
+    }
+
+    const result = await createServiceReview({
+      name: name.trim(),
+      comment: comment.trim(),
+      occupation: typeof occupation === "string" ? occupation.trim() : null,
+      place: typeof place === "string" ? place.trim() : null,
+    });
+
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, error: result.error || "Failed to submit review" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Thank you for sharing your feedback!",
+      id: result.id,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Invalid request payload",
+      },
+      { status: 400 }
+    );
+  }
+}
+
 

@@ -9,6 +9,16 @@ export interface BookReviewRow {
   occupation: string | null;
   place: string | null;
   book_id: number | null;
+  is_active?: boolean | null;
+}
+
+export interface CreateBookReviewInput {
+  stars: number;
+  comment: string;
+  name: string;
+  occupation?: string | null;
+  place?: string | null;
+  book_id: number;
 }
 
 export function formatReviewRole(
